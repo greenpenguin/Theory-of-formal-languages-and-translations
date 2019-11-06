@@ -42,6 +42,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StateInfoClass.cs" />
+    <Compile Include="TasksClass.cs" />
     <Compile Include="WorkWithConsoleClass.cs" />
     <Compile Include="WorkWithFileClass.cs" />
   </ItemGroup>

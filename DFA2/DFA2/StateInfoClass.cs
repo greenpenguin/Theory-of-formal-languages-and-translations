@@ -12,6 +12,13 @@ namespace DFA2
         //сигналы для перехода между состояниями
         public List<List<char>> StateTransitionSignals { get; set; }
 
+        public StateInfoClass(int nameOfState)
+        {
+            NameOfState = nameOfState;
+            AvailableStates = new List<int>();
+            StateTransitionSignals = new List<List<char>>();
+        }
+
         public StateInfoClass(int nameOfState, List<int> availableStates, List<List<char>> stateTransitionSignals)
         {
             NameOfState = nameOfState;

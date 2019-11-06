@@ -17,6 +17,10 @@ namespace DFA2
         public List<int> StartStates { get; set; }
         //множество заключительных состояний
         public List<int> FinalStates { get; set; }
+        //приоретет
+        public int Priority { get; set; }
+        //название автомата
+        public string Name { get; set; }
         
         public DfaClass(List<string> informationFromFile)
         {
@@ -24,7 +28,15 @@ namespace DFA2
             foreach (var elem in informationFromFile)
             {
                 List<string> stateInformation = elem.Split('|').ToList();
-                if (stateInformation[0] == "start")
+                if (stateInformation[0] == "priority")
+                {
+                    Priority = int.Parse(stateInformation[1]);
+                }
+                else if (stateInformation[0] == "dfaName")
+                {
+                    Name = stateInformation[1];
+                }
+                else if (stateInformation[0] == "start")
                 {
                     
                     StartStates = new List<int>();
@@ -49,32 +61,36 @@ namespace DFA2
                     int stateName = int.Parse(stateInformation[0]);
 
                     List<string> availableStatesString = stateInformation[1].Split(' ').ToList();
-                    List<int> availableStatesInt = new List<int>();
-                    foreach (var state in availableStatesString)
+                    
+                    if (availableStatesString[0] != "")
                     {
-                        availableStatesInt.Add(int.Parse(state));
-                    }
-
-                    List<List<char>> stateTransitionSignals = new List<List<char>>();
-                    for (int i = 2; i <= availableStatesInt.Count + 1; i++)
-                    {
-                        List<string> separatedStringOfSignals = stateInformation[i].Split(' ').ToList();
-                        List<char> listForAddingSignals = new List<char>();
-                        foreach (var signal in separatedStringOfSignals)
+                        List<int> availableStatesInt = new List<int>();
+                        foreach (var state in availableStatesString)
                         {
-                            listForAddingSignals.Add(char.Parse(signal));
+                            availableStatesInt.Add(int.Parse(state));
                         }
 
-                        stateTransitionSignals.Add(listForAddingSignals);
+                        List<List<char>> stateTransitionSignals = new List<List<char>>();
+                        for (int i = 2; i <= availableStatesInt.Count + 1; i++)
+                        {
+                            List<string> separatedStringOfSignals = stateInformation[i].Split(' ').ToList();
+                            List<char> listForAddingSignals = new List<char>();
+                            foreach (var signal in separatedStringOfSignals)
+                            {
+                                listForAddingSignals.Add(char.Parse(signal));
+                            }
+                            stateTransitionSignals.Add(listForAddingSignals);
+                        }
+                        StateInfoClass newState = new StateInfoClass(stateName, availableStatesInt, stateTransitionSignals); 
+                        States.Add(newState);
                     }
-
-                    StateInfoClass newState = new StateInfoClass(stateName, availableStatesInt, stateTransitionSignals); 
-                    States.Add(newState);
-                    
+                    else
+                    {
+                        StateInfoClass newState = new StateInfoClass(stateName); 
+                        States.Add(newState);
+                    }
                 }
-
             }
-            
         }
         
         public KeyValuePair<bool, int> MaxString(string str, int pos)

@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace DFA2
 {
     public class WorkWithConsoleClass
     {
-        public string ConsoleInput()
+        public string FirstTaskConsoleInput()
         {
             Console.WriteLine("Please input a world for check:");
 
@@ -13,8 +14,8 @@ namespace DFA2
 
             return inputStr;
         }
-
-        public void ConsoleOutput(string str)
+        
+        public void FirstTaskConsoleOutput(string str)
         {
             Console.WriteLine("Founded substring: " + str);
         }

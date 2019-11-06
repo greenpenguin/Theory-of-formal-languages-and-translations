@@ -1,18 +1,42 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 
 namespace DFA2
 {
-    internal class Program
+    public class TasksClass
     {
-        public static void Main(string[] args)
+        public void FirstTask()
         {
-            TasksClass tasksClass = new TasksClass();
-            //tasksClass.FirstTask(); // +25-+7.8+ee9e5-7+4e8+39e4
-            tasksClass.SecondTask();
-            /*WorkWithFileClass workWithFileClass = new WorkWithFileClass();
+            WorkWithFileClass workWithFileClass = new WorkWithFileClass();
+            WorkWithConsoleClass workWithConsoleClass = new WorkWithConsoleClass();
+            
+            string realInputFileName = Directory.GetCurrentDirectory() + "/input.txt";
+            DfaClass dfaClass = new DfaClass(workWithFileClass.ReadDfaInformationFromFile(realInputFileName));
+            
+            workWithFileClass.PrintDfaToFile(dfaClass);
+                
+            string str = workWithConsoleClass.FirstTaskConsoleInput();
+            
+            int k = 0;
+            while (k < str.Length)
+            {
+                var maxRes = dfaClass.MaxString(str, k);
+                if (maxRes.Key == true)
+                {
+                    workWithConsoleClass.FirstTaskConsoleOutput(str.Substring(k, maxRes.Value));
+                    k += Math.Max(maxRes.Value, 1);
+                }
+                else
+                {
+                    k++;
+                }
+            }
+        }
+
+        public void SecondTask()
+        {
+            WorkWithFileClass workWithFileClass = new WorkWithFileClass();
 
             string[] inputFileNames = {"/kw_input.txt", "/op_eq_input.txt", "/op_input.txt", "/id_input.txt",
             "/opening_bracket_input.txt", "/closing_bracket_input.txt", "/semicolon_input.txt", "/ws_input.txt",
@@ -67,12 +91,23 @@ namespace DFA2
                 else if (maxTokenLength == 0)
                 {
                     // иначе данный символ не подходит ни одному автомату, берем следующий
-                    Console.WriteLine("The symbol " + str[k] + " does not belong to any class of tokens");
+                    //Console.WriteLine("The symbol " + str[k] + " does not belong to any class of tokens");
                     k++;
                 }
-            }*/
-
-
+            }
+        }
+        
+        private string TakeDfaNameByPriority(int priority, List<DfaClass> dfaList)
+        {
+            string result = String.Empty;
+            foreach (var elem in dfaList)
+            {
+                if (elem.Priority == priority)
+                {
+                    result = elem.Name;
+                }
+            }
+            return result;
         }
     }
 }
